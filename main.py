@@ -2,7 +2,8 @@ import os
 import sys
 import argparse
 
-JIRA_BASE_URL = os.getenv("JIRA_BASE_URL") or "https://jira.mms.org/rest/api/latest"
+JIRA_BASE_URL = os.getenv("JIRA_BASE_URL") or "https://jira.example.org"
+JIRA_API_PATH = os.getenv("JIRA_API_PATH") or "/rest/api/latest"
 JIRA_TOKEN = os.getenv("JIRA_TOKEN")
 
 def mask(s, unmask=4):
@@ -26,12 +27,17 @@ def parse_args(argv):
     parser.add_argument('-i', '--issue', help="Jira issue key (e.g. QAUTO-1234)")
     args = parser.parse_args()
 
-    print("args:", args)
     print("project:", args.project)
     print("issue:", args.issue)
-    print("url: ", args.url)
-    print("token: ", mask(args.token))
+    print("jira base url: ", args.url)
+    print("jira token: ", mask(args.token))
+
+    return args
 
 if __name__ == "__main__":
     print("running main")
     args = parse_args(sys.argv)
+    args['JIRA_API_PATH'] = JIRA_API_PATH
+
+ 
+    print("args:", args)
